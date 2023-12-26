@@ -43,12 +43,22 @@
     state: present
     reload: yes
 
-- name: Configure components
-  with_items:
-    - master
-    - metanode
-    - datanode
-    - object-gateway
-    - cli
-  include_tasks: "{{ item }}.yml"
-  when: "'cubefs_' + item in groups"
+- name: Set up master configuration
+  include_tasks: master.yml
+  when: "'cubefs_master' in group_names"
+
+- name: Set up metanode configuration
+  include_tasks: metanode.yml
+  when: "'cubefs_metanode' in group_names"
+
+- name: Set up datanode configuration
+  include_tasks: datanode.yml
+  when: "'cubefs_datanode' in group_names"
+
+- name: Set up cli configuration
+  include_tasks: cli.yml
+  when: "'cubefs_cli' in group_names"
+
+- name: Set up client configuration
+  include_tasks: client.yml
+  when: "'cubefs_client' in group_names"

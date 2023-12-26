@@ -19,3 +19,7 @@
 
 ### Start and manage CubeFS
 - include_tasks: manage.yml
+
+### Start CubeFS clients
+- include_tasks: client.yml
+  when: "'cubefs_client' in group_names"

@@ -9,11 +9,10 @@
   notify:
     - Reload systemd
 
-- name: Detect and set disks for CubeFS datanode
+- name: Set CubeFS data disks to a list of mounts that start with /mnt/brick
   set_fact:
-    cubefs_data_disks: "{{ cubefs_data_disks | default([]) + [item] }}"
-  with_items: "{{ ansible_mounts }}"
-  when: item.mount starts with '/mnt/brick'
+    cubefs_data_disks: "{{ ansible_mounts | selectattr('mount', 'match', '^/mnt/brick') | map(attribute='mount') | list }}"
+  when: cubefs_data_disks is not defined
 
 - name: Debug - print disks
   debug:

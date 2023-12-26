@@ -1,4 +1,6 @@
 ---
+# This playbook PURGES all data from your cluster. It is intended for use in development environments only.
+# DO NOT USE IT UNLESS YOU ARE SURE YOU WANT TO DELETE EVERYTHING.
 - hosts: cubefs
   user: root
 

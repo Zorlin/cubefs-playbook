@@ -1,0 +1,28 @@
+---
+- name: Install CubeFS mount configurations
+  template:
+    src: mounts/media.cfg.j2
+    dest: /etc/cubefs/mount-media.cfg
+    owner: cubefs
+    group: cubefs
+    mode: 0700
+  notify:
+    - Reload systemd
+
+- name: Install CubeFS client/mount service
+  template:
+    src: mount@.service.j2
+    dest: /etc/systemd/system/cubefs-mount@.service
+    owner: root
+    group: root
+    mode: 0755
+  notify:
+    - Reload systemd
+
+- name: Mount CubeFS filesystems
+  service:
+    name: cubefs-mount@{{ item }}.service
+    state: started
+    enabled: true
+  loop:
+    - media

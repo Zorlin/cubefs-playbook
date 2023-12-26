@@ -4,9 +4,34 @@ al.riff.cc
 ambellina.riff.cc
 coheed.riff.cc
 cambria.riff.cc
+creature.riff.cc
+sizer.riff.cc
+inferno.riff.cc
 
-[cubefs_master:children]
-cubefs
+[cubefs_clients]
+monstar.riff.cc
+
+[cubefs_master]
+monstar.riff.cc
+al.riff.cc
+ambellina.riff.cc
+coheed.riff.cc
+cambria.riff.cc
 
 [cubefs_cli:children]
 cubefs_master
+
+[cubefs_metanode]
+monstar.riff.cc
+al.riff.cc
+ambellina.riff.cc
+coheed.riff.cc
+cambria.riff.cc
+creature.riff.cc
+
+[cubefs_datanode]
+monstar.riff.cc
+al.riff.cc
+ambellina.riff.cc
+sizer.riff.cc
+inferno.riff.cc

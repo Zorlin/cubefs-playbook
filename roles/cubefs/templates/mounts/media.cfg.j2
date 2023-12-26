@@ -1,0 +1,10 @@
+{
+  "mountPoint": "/mnt/cubefs/media",
+  "volName": "media",
+  "owner": "media",
+  "masterAddr": "{% for host in groups['cubefs_master'] -%}
+    {{- hostvars[host]['ansible_default_ipv4']['address'] -}}:17010{{- ',' if not loop.last -}}
+  {%- endfor %}",
+  "logDir": "{{ cubefs_log_dir}}/client/log",
+  "logLevel": "info"
+}

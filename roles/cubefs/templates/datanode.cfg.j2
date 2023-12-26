@@ -2,21 +2,29 @@
   "role": "datanode",
   "listen": "17310",
   "prof": "17320",
-  "logDir": "/cfs/datanode/log",
+  {% if cubefs_datanode_localip is defined -%}
+  "localIP": "{{ cubefs_datanode_localip | default('') }}",
+  {%- endif %}
+  "logDir": "{{ cubefs_log_dir }}/datanode",
   "logLevel": "info",
   "raftHeartbeat": "17330",
   "raftReplica": "17340",
-  "raftDir":"/cfs/datanode/log",
+  "raftDir":"{{ cubefs_data_dir }}/datanode/log",
+  {% if consul_enabled -%}
   "consulAddr": "http://consul.prometheus-cfs.local",
+  {%- endif -%}
   "exporterPort": 9502,
   "masterAddr": [
-    {% for host in groups['cubefs_master'] %}
+    {% for host in groups['cubefs_master'] -%}
     "{{ hostvars[host]['ansible_default_ipv4']['address'] }}:17010"{% if not loop.last %},{% endif %}
-    {% endfor %}
+    {%- endfor %}
+
   ],
   "disks": [
-    {% for disk in }
-    "/data0:10737418240",
-    "/data1:10737418240"
+    {% for disk in cubefs_data_disks %}
+    "{{ disk }}/cubefs:10737418240"{% if not loop.last %},
+    {% endif %}
+    {% endfor %}
+
  ]
 }

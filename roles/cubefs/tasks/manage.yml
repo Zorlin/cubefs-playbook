@@ -1,14 +1,31 @@
 ---
 # TODO - name: Ensure the latest binaries are installed
 
-- name: Ensure component services are started
+# Ensure component services are started
+- name: Start CubeFS masters
   service:
-    name: "cubefs-{{ item }}"
+    name: cubefs-master
     state: started
     enabled: true
-  loop:
-    - master
-    - metanode
-    - datanode
-    - object-gateway
-  when: "'cubefs_' + item in groups"
+  when: "'cubefs_master' in group_names"
+
+- name: Start CubeFS metanodes
+  service:
+    name: cubefs-metanode
+    state: started
+    enabled: true
+  when: "'cubefs_metanode' in group_names"
+
+- name: Start CubeFS datanodes
+  service:
+    name: cubefs-datanode
+    state: started
+    enabled: true
+  when: "'cubefs_datanode' in group_names"
+
+- name: Start CubeFS object gateways
+  service:
+    name: cubefs-object-gateway
+    state: started
+    enabled: true
+  when: "'cubefs_object_gateway' in group_names"

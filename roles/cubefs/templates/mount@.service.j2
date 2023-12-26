@@ -1,12 +1,12 @@
 [Unit]
-Description=CubeFS Meta Node
+Description=CubeFS Mount %I
 After=network.target
 
 [Service]
 Type=forking
 User={{ cubefs_user }}
 Group={{ cubefs_user }}
-ExecStart=/usr/local/bin/cfs-server -c /etc/cubefs/metanode.cfg
+ExecStart=/usr/local/bin/cfs-client -c /etc/cubefs/mount-%I.cfg
 LimitNOFILE=102400000
 
 [Install]
