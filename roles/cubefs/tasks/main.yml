@@ -1,0 +1,15 @@
+---
+# tasks file for ansible-role-cubefs
+# main tasks file, which performs pretty much everything needed for installation and configuration of MooseFS
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+  
+### Install CubeFS ###
+# Install CubeFS from official binary tarballs
+- include_tasks: install-official.yml
+  when: cubefs_install_method == "official"
+
+# Build and install CubeFS from source.
+# !! Not supported yet !!
+#- include_tasks: install-source.yml
+#  when: cubefs_install_method == "source"

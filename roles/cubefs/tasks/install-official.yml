@@ -1,0 +1,42 @@
+---
+- name: Download CubeFS from GitHub
+  get_url:
+    url: "https://github.com/cubefs/cubefs/releases/download/v{{ cubefs_version }}/cubefs-{{ cubefs_version }}-linux-amd64.tar.gz"
+    dest: "{{ cubefs_download_dir }}/cubefs-{{ cubefs_version }}-linux-amd64.tar.gz"
+    mode: 0755
+    validate_certs: true
+    checksum: "sha256:https://github.com/cubefs/cubefs/releases/download/v{{ cubefs_version }}/cubefs-{{ cubefs_version }}-linux-amd64.tar.gz.sha256sum"
+  register: cubefs_download
+
+- name: Ensure CubeFS download directory exists
+  file:
+    path: "{{ cubefs_download_dir }}/cubefs"
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Extract CubeFS binaries
+  unarchive:
+    src: "{{ cubefs_download_dir }}/cubefs-{{ cubefs_version }}-linux-amd64.tar.gz"
+    dest: "{{ cubefs_download_dir }}/cubefs"
+    remote_src: true
+    creates: "{{ cubefs_download_dir }}/cubefs-{{ cubefs_version }}-linux-amd64"
+    extra_opts: [--strip-components=1]
+
+- name: Find CubeFS binaries on remote host
+  find:
+    paths: "{{ cubefs_download_dir }}/cubefs/build/bin"
+    patterns: "cfs*"
+  register: cubefs_binaries
+
+- name: Copy CubeFS binaries into place
+  copy:
+    src: "{{ item.path }}"
+    dest: "/usr/local/bin/"
+    owner: root
+    group: root
+    mode: 0755
+    remote_src: true
+  loop: "{{ cubefs_binaries.files }}"
+  when: cubefs_binaries.matched > 0

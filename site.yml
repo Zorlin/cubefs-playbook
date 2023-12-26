@@ -1,0 +1,9 @@
+---
+- user: root
+  hosts: cubefs
+
+  vars_files:
+    - "vars/main.yml"
+
+  roles:
+  - cubefs

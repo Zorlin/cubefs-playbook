@@ -1,0 +1,6 @@
+---
+cubefs_build_dependencies:
+  - build-essential
+  - libpcap-dev
+  - zlib1g-dev
+  - pkg-config
