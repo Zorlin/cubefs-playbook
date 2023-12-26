@@ -3,6 +3,7 @@ Description=CubeFS Master Server
 After=network.target
 
 [Service]
+Type=forking
 User={{ cubefs_user }}
 Group={{ cubefs_user }}
 ExecStart=/usr/local/bin/cfs-server -c /etc/cubefs/master.cfg

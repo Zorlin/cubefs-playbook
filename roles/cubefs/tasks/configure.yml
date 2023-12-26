@@ -16,7 +16,7 @@
   file:
     path: "{{ cubefs_data_dir }}"
     state: directory
-    owner: root
+    owner: cubefs
     group: cubefs
     mode: 0755
 
@@ -24,7 +24,7 @@
   file:
     path: "{{ cubefs_log_dir }}"
     state: directory
-    owner: root
+    owner: cubefs
     group: cubefs
     mode: 0755
 
@@ -34,7 +34,7 @@
     state: directory
     owner: root
     group: root
-    mode: 
+    mode: 0755
     
 - name: Set number of open files
   sysctl:

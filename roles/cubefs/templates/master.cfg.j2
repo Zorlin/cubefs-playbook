@@ -13,9 +13,9 @@
   "logLevel":"info",
   "walDir":"{{ cubefs_data_dir }}/master/data/wal",
   "storeDir":"{{ cubefs_data_dir }}/master/data/store",
-  {%- if consul_enabled -%}
+  {% if consul_enabled -%}
   "consulAddr": "http://consul.prometheus-cfs.local",
-  {%- endif -%}
+  {%- endif %}
   "clusterName":"{{ cluster_name }}",
   "metaNodeReservedMem": "1073741824"
 }
