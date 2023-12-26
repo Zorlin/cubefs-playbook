@@ -1,0 +1,22 @@
+{
+  "role": "datanode",
+  "listen": "17310",
+  "prof": "17320",
+  "logDir": "/cfs/datanode/log",
+  "logLevel": "info",
+  "raftHeartbeat": "17330",
+  "raftReplica": "17340",
+  "raftDir":"/cfs/datanode/log",
+  "consulAddr": "http://consul.prometheus-cfs.local",
+  "exporterPort": 9502,
+  "masterAddr": [
+    {% for host in groups['cubefs_master'] %}
+    "{{ hostvars[host]['ansible_default_ipv4']['address'] }}:17010"{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ],
+  "disks": [
+    {% for disk in }
+    "/data0:10737418240",
+    "/data1:10737418240"
+ ]
+}

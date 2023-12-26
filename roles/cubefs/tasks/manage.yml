@@ -1,0 +1,14 @@
+---
+# TODO - name: Ensure the latest binaries are installed
+
+- name: Ensure component services are started
+  service:
+    name: "cubefs-{{ item }}"
+    state: started
+    enabled: true
+  loop:
+    - master
+    - metanode
+    - datanode
+    - object-gateway
+  when: "'cubefs_' + item in groups"

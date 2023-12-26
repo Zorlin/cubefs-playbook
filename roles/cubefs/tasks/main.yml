@@ -13,3 +13,9 @@
 # !! Not supported yet !!
 #- include_tasks: install-source.yml
 #  when: cubefs_install_method == "source"
+
+### Configure CubeFS
+- include_tasks: configure.yml
+
+### Start and manage CubeFS
+- include_tasks: manage.yml

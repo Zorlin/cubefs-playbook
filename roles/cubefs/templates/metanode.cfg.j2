@@ -1,0 +1,21 @@
+{
+    "role": "metanode",
+    "listen": "17210",
+    "prof": "17220",
+    "logLevel": "info",
+    "metadataDir": "{{ cubefs_data_dir }}/metanode/data/meta",
+    "logDir": "{{ cubefs_data_dir }}/logs/metanode",
+    "raftDir": "{{ cubefs_data_dir }}/metanode/data/raft",
+    "raftHeartbeatPort": "17230",
+    "raftReplicaPort": "17240",
+    "totalMem":  "8589934592",
+    { % if consul_enabled % }
+    "consulAddr": "http://consul.prometheus-cfs.local",
+    { % endif % }
+    "exporterPort": 9501,
+    "masterAddr": [
+        {% for host in groups['cubefs_master'] %}
+        "{{ hostvars[host]['ansible_default_ipv4']['address'] }}:17010"{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ]
+}

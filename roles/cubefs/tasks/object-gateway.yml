@@ -1,0 +1,20 @@
+---
+- name: Install CubeFS metanode systemd service
+  template:
+    src: metanode.service.j2
+    dest: /etc/systemd/system/cubefs-object-gateway.service
+    owner: root
+    group: root
+    mode: 0755
+  notify:
+    - Reload systemd
+
+- name: Install CubeFS object-gateway configuration
+  template:
+    src: object-gateway.cfg.j2
+    dest: /etc/cubefs/object-gateway.cfg
+    owner: cubefs
+    group: cubefs
+    mode: 0700
+  notify:
+    - Reload systemd

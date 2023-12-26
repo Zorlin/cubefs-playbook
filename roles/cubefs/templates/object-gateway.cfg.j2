@@ -1,0 +1,14 @@
+{
+    "role": "objectnode",
+    "domains": [
+        "{{ cubefs_s3_domain }}"
+    ],
+    "listen": "17410",
+    "masterAddr": [
+        {% for host in groups['cubefs_master'] %}
+            "{{ hostvars[host]['ansible_default_ipv4']['address'] }}:17010"{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ],
+    "logLevel": "info",
+    "logDir": "{{ cubefs_data_dir }}/logs/objectnode"
+}

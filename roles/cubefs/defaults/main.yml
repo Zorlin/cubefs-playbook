@@ -1,2 +1,3 @@
 ---
 cubefs_install_method: official
+consul_enabled: false

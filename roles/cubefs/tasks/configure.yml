@@ -1,0 +1,54 @@
+---
+- name: Create CubeFS group
+  group:
+    name: cubefs
+    state: present
+
+- name: Create CubeFS user
+  user:
+    name: cubefs
+    group: cubefs
+    state: present
+    shell: /bin/bash
+    system: true
+
+- name: Create CubeFS data directory
+  file:
+    path: "{{ cubefs_data_dir }}"
+    state: directory
+    owner: root
+    group: cubefs
+    mode: 0755
+
+- name: Create CubeFS log directory
+  file:
+    path: "{{ cubefs_log_dir }}"
+    state: directory
+    owner: root
+    group: cubefs
+    mode: 0755
+
+- name: Create CubeFS configuration directory
+  file:
+    path: /etc/cubefs
+    state: directory
+    owner: root
+    group: root
+    mode: 
+    
+- name: Set number of open files
+  sysctl:
+    name: fs.file-max
+    value: 10240000
+    state: present
+    reload: yes
+
+- name: Configure components
+  with_items:
+    - master
+    - metanode
+    - datanode
+    - object-gateway
+    - cli
+  include_tasks: "{{ item }}.yml"
+  when: "'cubefs_' + item in groups"

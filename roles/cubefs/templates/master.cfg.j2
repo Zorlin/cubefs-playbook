@@ -1,0 +1,21 @@
+{
+  "role": "master",
+  "ip": "{{ ansible_default_ipv4.address }}",
+  "listen": "17010",
+  "prof":"17020",
+  "id": "{{ ansible_default_ipv4.address.split('.')[-1] }}",
+  "peers": "{% for host in groups['cubefs_master'] -%}
+    {{- hostvars[host]['ansible_default_ipv4']['address'].split('.')[-1] -}}:
+    {{- hostvars[host]['ansible_default_ipv4']['address'] -}}:17010{{- ',' if not loop.last -}}
+  {%- endfor %}",
+  "retainLogs":"20000",
+  "logDir": "{{ cubefs_log_dir }}/logs/master",
+  "logLevel":"info",
+  "walDir":"{{ cubefs_data_dir }}/master/data/wal",
+  "storeDir":"{{ cubefs_data_dir }}/master/data/store",
+  {%- if consul_enabled -%}
+  "consulAddr": "http://consul.prometheus-cfs.local",
+  {%- endif -%}
+  "clusterName":"{{ cluster_name }}",
+  "metaNodeReservedMem": "1073741824"
+}

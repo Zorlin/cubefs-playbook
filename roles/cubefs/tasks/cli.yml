@@ -1,0 +1,5 @@
+---
+- name: Configure CubeFS CLI on root user
+  template:
+    src: cli.json.j2
+    dest: /root/.cfs-cli.json

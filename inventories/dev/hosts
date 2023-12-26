@@ -1,0 +1,12 @@
+[cubefs]
+monstar.riff.cc
+al.riff.cc
+ambellina.riff.cc
+coheed.riff.cc
+cambria.riff.cc
+
+[cubefs_master:children]
+cubefs
+
+[cubefs_cli:children]
+cubefs_master

@@ -1,0 +1,12 @@
+[Unit]
+Description=CubeFS Data Node
+After=network.target
+
+[Service]
+User={{ cubefs_user }}
+Group={{ cubefs_user }}
+ExecStart=/usr/local/bin/cfs-server -c /etc/cubefs/datanode.cfg
+LimitNOFILE=102400000
+
+[Install]
+WantedBy=multi-user.target

@@ -1,3 +1,7 @@
 ---
 cubefs_version: 3.3.1
 cubefs_download_dir: /var/tmp
+cubefs_data_dir: /var/lib/cubefs
+cubefs_log_dir: /var/log/cubefs
+cubefs_user: cubefs
+cubefs_group: "{{ cubefs_user }}"

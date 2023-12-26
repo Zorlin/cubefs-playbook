@@ -1,0 +1,37 @@
+---
+- name: Install CubeFS datanode systemd service
+  template:
+    src: datanode.service.j2
+    dest: /etc/systemd/system/cubefs-datanode.service
+    owner: root
+    group: root
+    mode: 0755
+  notify:
+    - Reload systemd
+
+- name: Detect and set disks for CubeFS datanode
+  set_fact:
+    cubefs_data_disks: "{{ cubefs_data_disks | default([]) + [item] }}"
+  with_items: "{{ ansible_mounts }}"
+  when: item.mount starts with '/mnt/brick'
+
+- name: Debug - print disks
+  debug:
+    var: cubefs_data_disks
+
+- name: Ensure disks are defined for every node
+  assert:
+    that:
+      - cubefs_data_disks is defined
+      - cubefs_data_disks | length > 0
+    msg: "You must define at least one disk for every datanode, preferably using host_vars."
+
+- name: Install CubeFS datanode configuration
+  template:
+    src: datanode.cfg.j2
+    dest: /etc/cubefs/datanode.cfg
+    owner: cubefs
+    group: cubefs
+    mode: 0700
+  notify:
+    - Reload systemd

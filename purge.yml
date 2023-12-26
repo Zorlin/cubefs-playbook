@@ -1,0 +1,27 @@
+---
+- hosts: cubefs
+  user: root
+
+  tasks:
+    - name: Warn the user that we will delete everything if they choose to proceed
+      pause:
+        prompt: "WARNING: This will delete everything in CubeFS. Are you sure you want to proceed? (y/n)"
+      register: proceed
+      run_once: true
+
+    - name: Assert that we have permission to proceed
+      assert:
+        that:
+          - proceed.user_input == 'y' or proceed.user_input == 'Y'
+        msg: "You must enter 'y' or 'Y' to proceed."
+      run_once: true
+
+    - name: Delete CubeFS configuration directory
+      file:
+        path: /etc/cubefs
+        state: absent
+
+    - name: Delete CubeFS data directory
+      file:
+        path: /var/lib/cubefs
+        state: absent
